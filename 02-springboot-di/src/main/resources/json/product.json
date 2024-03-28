@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "PlayStation 5",
+        "price": 300.0
+    },
+    {
+        "id": 2,
+        "name": "CPU INTEL I7 1300K",
+        "price": 625.0
+    },
+    {
+        "id": 3,
+        "name": "MotherBoard Rog Gaming",
+        "price": 400.99
+    },
+    {
+        "id": 4,
+        "name": "Tower Corsair",
+        "price": 87.5
+    }
+]
