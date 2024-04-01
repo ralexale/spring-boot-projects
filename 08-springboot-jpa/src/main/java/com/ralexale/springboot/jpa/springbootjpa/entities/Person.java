@@ -8,17 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-/* 
-    Esta anotación es opcional, si no se coloca el nombre por defecto de
-    la tabla va a ser el nombre de la clase
-*/
+/*
+ * Esta anotación es opcional, si no se coloca el nombre por defecto de
+ * la tabla va a ser el nombre de la clase
+ */
 @Table(name = "person")
 public class Person {
 
   @Id
   // Con esta anotación podemos definir como se van a crear los ids
   // IDENTITY es auto Incremental en MySQL
-  //   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
@@ -30,14 +30,14 @@ public class Person {
 
   // siempre que estemos en una clase con la anotación @Entity
   // tenemos que crear un constructor vacío
-  public Person() {}
+  public Person() {
+  }
 
   public Person(
-    String id,
-    String name,
-    String lastname,
-    String programmingLanguage
-  ) {
+      String id,
+      String name,
+      String lastname,
+      String programmingLanguage) {
     this.id = id;
     this.name = name;
     this.lastname = lastname;
@@ -78,16 +78,14 @@ public class Person {
 
   @Override
   public String toString() {
-    return (
-      "Person [id=" +
-      id +
-      ", name=" +
-      name +
-      ", lastname=" +
-      lastname +
-      ", programmingLanguage=" +
-      programmingLanguage +
-      "]"
-    );
+    return ("Person [id=" +
+        id +
+        ", name=" +
+        name +
+        ", lastname=" +
+        lastname +
+        ", programmingLanguage=" +
+        programmingLanguage +
+        "]");
   }
 }
