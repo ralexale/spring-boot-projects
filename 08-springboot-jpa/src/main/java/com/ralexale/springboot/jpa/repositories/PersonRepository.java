@@ -4,6 +4,7 @@ import com.ralexale.springboot.jpa.springbootjpa.entities.Person;
 // import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -30,11 +31,25 @@ public interface PersonRepository extends CrudRepository<Person, String> {
      * @Query("select p from Person p")
      */
     // @Query("select p from Person p")
-    // @Query("select p from Person p where p.lastname = ?1 and p.name =?2")
-    @Query("select p from Person p where p.lastname = ?1")
-    public List<Person> buscarPorApellido(String lastname);
+    @Query("select p from Person p where p.lastname = ?1 and p.name =?2")
+    // @Query("select p from Person p where p.lastname = ?1 and p.")
+    public List<Person> buscarPorApellido(String lastname, String name);
 
     @Query("SELECT p.name, p.programmingLanguage FROM Person p")
+    // cuando hacemos un select de esta manera se retorna los valores como una lista
+    // donde el primer valor p.name va a estar en el indice 0 y
+    // p.programmingLanguage
+    // va a estar en el indice 1
     List<Object[]> obtenerPersonValue();
+
+    @Query("SELECT p.id FROM Person p")
+    // como traemos un solo atributo esto retorna una list de un objeto
+    List<Object> obtenerIdPersons();
+
+    @Query("SELECT p FROM Person p WHERE p.name like %?1")
+    Optional<Person> findOneLikeName(String name);
+
+    @Query("SELECT p FROM Person p WHERE p.name = ?1")
+    Optional<Person> findOneByName(String name);
 
 }
