@@ -23,6 +23,14 @@ public interface PersonRepository extends CrudRepository<Person, String> {
 
     public List<Person> findByProgrammingLanguageAndName(String programmingLanguage, String name);
 
+    public Optional<Person> findByName(String name);
+
+    /*
+     * Para hacer una busqueda con un like tenemos que escribir el nombre del
+     * método con Containing
+     */
+    public Optional<Person> findByNameContaining(String name);
+
     /*
      * Para escribir una consulta personalizada tenemos
      * que colocar el nombre de la entidad con una abreviatura
@@ -46,8 +54,11 @@ public interface PersonRepository extends CrudRepository<Person, String> {
     // como traemos un solo atributo esto retorna una list de un objeto
     List<Object> obtenerIdPersons();
 
-    @Query("SELECT p FROM Person p WHERE p.name like %?1")
+    @Query("SELECT p FROM Person p WHERE p.name like %?1%  ORDER BY p.name limit 1 ")
     Optional<Person> findOneLikeName(String name);
+
+    @Query("SELECT p FROM Person p WHERE p.name like %?1%")
+    List<Person> findLikeName(String name);
 
     @Query("SELECT p FROM Person p WHERE p.name = ?1")
     Optional<Person> findOneByName(String name);

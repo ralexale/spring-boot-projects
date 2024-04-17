@@ -3,7 +3,7 @@ package com.ralexale.springboot.jpa.springbootjpa;
 import com.ralexale.springboot.jpa.repositories.PersonRepository;
 import com.ralexale.springboot.jpa.springbootjpa.entities.Person;
 import java.util.List;
-import java.util.Optional;
+import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,7 +26,8 @@ public class SpringbootJpaApplication implements CommandLineRunner {
   public void run(String... args) throws Exception {
 
     // list();
-    findOne();
+    // findOne();
+    create();
   }
 
   public void findOne() {
@@ -45,12 +46,38 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     // repository.findById("6a37c4b8-e30e-4b13-b9a5-4986cbcc5634").ifPresent(System.out::println);
 
-    repository.findOneLikeName("Hec").ifPresent(System.out::println);
+    // repository.findOneLikeName("An").ifPresent(System.out::println);
+
+    repository.findByNameContaining("He").ifPresent(System.out::println);
+
     // repository.findOneByName("Hector").ifPresent(System.out::println);
 
     // personValue.stream()
     // .forEach(personValueTemp -> System.out.println(personValueTemp[0] + " experto
     // en " + personValueTemp[1]));
+  }
+
+  public void create() {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("ingresa el nombre del coder");
+    String name = scanner.next();
+
+    System.out.println("ingresa el apellido del coder");
+    String lastname = scanner.next();
+
+    System.out.println("ingresa el lenguaje de programación del coder");
+    String programingLanguage = scanner.next();
+
+    scanner.close();
+
+    Person person = new Person(null, name, lastname, programingLanguage);
+
+    Person personNew = repository.save(person);
+
+    System.out.println(personNew);
+
+    repository.findById(personNew.getId());
   }
 
   public void list() {
