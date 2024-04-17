@@ -32,7 +32,7 @@ public class UserRestController {
     public UserDto details() {
         UserDto userDto = new UserDto();
 
-        User user = new User("Andres", "Velez");
+        User user = new User("KEVIN", "MEJIA");
         userDto.setUser(user);
         userDto.setTitle("Hola mundo en Spring Boot");
 
