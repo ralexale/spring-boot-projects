@@ -6,6 +6,8 @@ import com.ralexale.springboot.jpa.springbootjpa.entities.Person;
 import java.util.List;
 import java.util.Optional;
 
+// import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -31,6 +33,9 @@ public interface PersonRepository extends CrudRepository<Person, String> {
      */
     public Optional<Person> findByNameContaining(String name);
 
+    @SuppressWarnings("null")
+    public Optional<Person> findById(String id);
+
     /*
      * Para escribir una consulta personalizada tenemos
      * que colocar el nombre de la entidad con una abreviatura
@@ -54,6 +59,9 @@ public interface PersonRepository extends CrudRepository<Person, String> {
     // como traemos un solo atributo esto retorna una list de un objeto
     List<Object> obtenerIdPersons();
 
+    @Query("SELECT p.id, p.name, p.programmingLanguage FROM Person p WHERE p.id = ?1")
+    Object[] getPersonDataById(String id);
+
     @Query("SELECT p FROM Person p WHERE p.name like %?1%  ORDER BY p.name limit 1 ")
     Optional<Person> findOneLikeName(String name);
 
@@ -62,5 +70,11 @@ public interface PersonRepository extends CrudRepository<Person, String> {
 
     @Query("SELECT p FROM Person p WHERE p.name = ?1")
     Optional<Person> findOneByName(String name);
+
+    @Query("SELECT p.name FROM Person p WHERE p.id =?1")
+    String getNameById(String id);
+
+    @Query("SELECT concat(p.name,' ', p.lastname) FROM Person p WHERE p.id =?1")
+    String getFullNameById(String id);
 
 }

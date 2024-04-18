@@ -2,7 +2,9 @@ package com.ralexale.springboot.jpa.springbootjpa;
 
 import com.ralexale.springboot.jpa.repositories.PersonRepository;
 import com.ralexale.springboot.jpa.springbootjpa.entities.Person;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.ralexale.springboot.jpa.repositories")
@@ -27,9 +30,36 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     // list();
     // findOne();
-    create();
+    // create();
+    // update();
+    personalizedQuerys();
   }
 
+  @Transactional
+  public void update() {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("integre el id de la persona a editar");
+    String id = scanner.next();
+
+    Optional<Person> optionalPerson = repository.findById(id);
+
+    optionalPerson.ifPresent(person -> {
+      System.out.println(person);
+
+      System.out.println("ingresa el lenguaje de programación del coder");
+      String programingLanguage = scanner.next();
+
+      person.setProgrammingLanguage(programingLanguage);
+
+      repository.save(person);
+    });
+
+    scanner.close();
+
+  }
+
+  @Transactional(readOnly = true)
   public void findOne() {
     // Person person = null;
     // Optional<Person> optionalPerson =
@@ -57,6 +87,26 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     // en " + personValueTemp[1]));
   }
 
+  @Transactional(readOnly = true)
+  public void personalizedQuerys() {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("ingrese el id de la persona");
+    String id = scanner.next();
+
+    String name = this.repository.getNameById(id);
+    String fullName = this.repository.getFullNameById(id);
+
+    Object[] personData = this.repository.getPersonDataById(id);
+
+    System.out.println(name);
+    System.out.println(fullName);
+    // System.out.println("id = " + personData[0]);
+
+    scanner.close();
+  }
+
+  @Transactional
   public void create() {
     Scanner scanner = new Scanner(System.in);
 
@@ -77,9 +127,24 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     System.out.println(personNew);
 
-    repository.findById(personNew.getId());
+    // método de referencia
+    repository.findById(personNew.getId()).ifPresent(System.out::println);
   }
 
+  @Transactional
+  public void delete() {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("Ingresa el id de la persona");
+
+    String id = scanner.next();
+
+    this.repository.deleteById(id);
+
+    scanner.close();
+  }
+
+  @Transactional(readOnly = true)
   public void list() {
     // esta método viene en el crud repository y nos permite obtener todas las
     // columnas de la tabla
