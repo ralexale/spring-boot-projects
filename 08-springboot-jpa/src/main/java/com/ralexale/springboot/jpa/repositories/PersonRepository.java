@@ -34,6 +34,12 @@ public interface PersonRepository extends CrudRepository<Person, String> {
      */
     public Optional<Person> findByNameContaining(String name);
 
+    /*
+     * Para hacer una consulta con el between usamos la palabra
+     * resevada y creamos el método
+     */
+    public List<Person> findByNameBetween(String c1, String c2);
+
     @SuppressWarnings("null")
     public Optional<Person> findById(String id);
 
@@ -75,8 +81,25 @@ public interface PersonRepository extends CrudRepository<Person, String> {
     @Query("SELECT p.name FROM Person p WHERE p.id =?1")
     String getNameById(String id);
 
+    /*
+     * Concat nos sirve para juntar valores, también podemos usar || que hace lo
+     * mismo
+     */
     @Query("SELECT concat(p.name,' ', p.lastname) FROM Person p WHERE p.id =?1")
     String getFullNameById(String id);
+
+    @Query("SELECT p.name || ' ' || p.lastname FROM Person p ")
+    List<String> getFullNamesConcat();
+
+    /*
+     * Con el upper y lower podemos convertir los valores
+     * a mayúscula y minúscula
+     */
+    @Query("SELECT upper(p.name || ' ' || p.lastname) FROM Person p ")
+    List<String> getFullNamesConcatUpper();
+
+    @Query("SELECT lower(concat(p.name, ' ', p.lastname)) FROM Person p ")
+    List<String> getFullNamesConcatLower();
 
     @Query("SELECT p, p.programmingLanguage From Person p")
     List<Object[]> findAllMix();
@@ -90,5 +113,34 @@ public interface PersonRepository extends CrudRepository<Person, String> {
 
     @Query("select new com.ralexale.springboot.jpa.dto.PersonDto(p.name , p.lastname) from Person p")
     List<PersonDto> findAllPersonDto();
+
+    @Query("select p.name From Person p")
+    List<String> findAllNames();
+
+    /*
+     * Usamos el distinct para traer todo los nombres que sean
+     * diferentes si hay alguno repetido no va a salir en la lista
+     */
+    @Query("select distinct(p.name) From Person p")
+    List<String> findAllDistinctsNames();
+
+    @Query("select distinct(p.programmingLanguage) From Person p")
+    List<String> findAllDistinctsProgrammingLanguage();
+
+    /*
+     * Podemos usar el count para traer el numero total de resultados
+     */
+    @Query("select count(distinct(p.programmingLanguage)) From Person p")
+    Long CountAllDistinctsProgrammingLanguage();
+
+    @Query("Select p From Person p where p.name between 'A' and 's' ")
+    List<Person> findPersonBetween();
+
+    /*
+     * Vamos a obtener un valor haciendo una subconsulta
+     */
+
+    @Query("select p.name, length(p.name) from Person p where length(p.name) = (select min(length(p.name)) From Person p)")
+    List<Object[]> getShortedName();
 
 }

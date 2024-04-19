@@ -34,7 +34,11 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     // create();
     // update();
     // personalizedQuerys();
-    personalizedQuerys2();
+    // personalizedQuerys2();
+    // personalizedQuerysDistinc();
+    // personalizedQuerysConcatUpperAndLowerCase();
+    // personalizedQuerysBetween();
+    personalizedSubQuerys();
   }
 
   @Transactional
@@ -99,7 +103,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     String name = this.repository.getNameById(id);
     String fullName = this.repository.getFullNameById(id);
 
-    Object[] personData = this.repository.getPersonDataById(id);
+    // Object[] personData = this.repository.getPersonDataById(id);
 
     System.out.println(name);
     System.out.println(fullName);
@@ -131,6 +135,64 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     List<PersonDto> personDto = repository.findAllPersonDto();
     personDto.forEach(System.out::println);
+
+  }
+
+  public void personalizedQuerysConcatUpperAndLowerCase() {
+
+    List<String> nombresConcat = repository.getFullNamesConcat();
+
+    nombresConcat.forEach(System.out::println);
+
+    System.out.println("\n Nombres en mayúscula \n");
+    List<String> nombresConcatUpper = repository.getFullNamesConcatUpper();
+    nombresConcatUpper.forEach(System.out::println);
+
+    System.out.println("\n Nombres en minúscula \n");
+    List<String> nombresConcatLower = repository.getFullNamesConcatLower();
+
+    nombresConcatLower.forEach(System.out::println);
+
+  }
+
+  public void personalizedQuerysDistinc() {
+
+    // System.out.println("Consultas con nombres de personas");
+    // List<String> nombres = repository.findAllNames();
+
+    System.out.println("Consultas con nombres de personas");
+    List<String> nombresDistintos = repository.findAllDistinctsNames();
+    nombresDistintos.forEach(System.out::println);
+
+    System.out.println("\n Consultas con lenguajes de programación unicos");
+
+    List<String> lenguajesDistintos = repository.findAllDistinctsProgrammingLanguage();
+
+    lenguajesDistintos.forEach(System.out::println);
+
+    System.out.println("\n Consultas con total lenguajes de programación unicos");
+
+    Long contadorDeLenguajes = repository.CountAllDistinctsProgrammingLanguage();
+
+    System.out.println(contadorDeLenguajes);
+
+  }
+
+  public void personalizedQuerysBetween() {
+
+    List<Person> personsB = repository.findPersonBetween();
+
+    personsB.forEach(System.out::println);
+
+  }
+
+  public void personalizedSubQuerys() {
+    List<Object[]> registers = repository.getShortedName();
+    registers.forEach(reg -> {
+      String name = (String) reg[0];
+      Integer length = (Integer) reg[1];
+      System.out.println("Name = " + name + " length = " + length);
+    });
 
   }
 
