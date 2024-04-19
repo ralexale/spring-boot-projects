@@ -1,5 +1,6 @@
 package com.ralexale.springboot.jpa.repositories;
 
+import com.ralexale.springboot.jpa.dto.PersonDto;
 import com.ralexale.springboot.jpa.springbootjpa.entities.Person;
 // import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -76,5 +77,18 @@ public interface PersonRepository extends CrudRepository<Person, String> {
 
     @Query("SELECT concat(p.name,' ', p.lastname) FROM Person p WHERE p.id =?1")
     String getFullNameById(String id);
+
+    @Query("SELECT p, p.programmingLanguage From Person p")
+    List<Object[]> findAllMix();
+
+    /*
+     * Creamos una nueva instancia del person que solo va a tener el nombre
+     * y el apellido
+     */
+    @Query("SELECT new Person(p.name, p.lastname) FROM Person p")
+    List<Person> findAllPersonalizedObjectPerson();
+
+    @Query("select new com.ralexale.springboot.jpa.dto.PersonDto(p.name , p.lastname) from Person p")
+    List<PersonDto> findAllPersonDto();
 
 }

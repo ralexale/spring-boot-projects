@@ -1,5 +1,6 @@
 package com.ralexale.springboot.jpa.springbootjpa;
 
+import com.ralexale.springboot.jpa.dto.PersonDto;
 import com.ralexale.springboot.jpa.repositories.PersonRepository;
 import com.ralexale.springboot.jpa.springbootjpa.entities.Person;
 
@@ -32,7 +33,8 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     // findOne();
     // create();
     // update();
-    personalizedQuerys();
+    // personalizedQuerys();
+    personalizedQuerys2();
   }
 
   @Transactional
@@ -104,6 +106,32 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     // System.out.println("id = " + personData[0]);
 
     scanner.close();
+  }
+
+  @Transactional(readOnly = true)
+  public void personalizedQuerys2() {
+    System.out.println(
+        "======================= consulta por objeto person y lenguaje de programación ======================= ");
+
+    List<Object[]> personRegs = repository.findAllMix();
+
+    personRegs.forEach(reg -> {
+      System.out.println("programming language: " + reg[1] + " person = " + reg[0]);
+    });
+
+    System.out.println(
+        "======================= consulta que puebla y devuelve objeto entity de una clase personalizada ======================= ");
+
+    List<Person> persons = repository.findAllPersonalizedObjectPerson();
+
+    persons.forEach(System.out::println);
+
+    System.out.println(
+        "======================= consulta que puebla y devuelve objeto PersonDto de una clase DTO personalizada ======================= ");
+
+    List<PersonDto> personDto = repository.findAllPersonDto();
+    personDto.forEach(System.out::println);
+
   }
 
   @Transactional
