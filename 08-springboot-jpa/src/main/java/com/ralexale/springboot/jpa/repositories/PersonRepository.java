@@ -143,4 +143,10 @@ public interface PersonRepository extends CrudRepository<Person, String> {
     @Query("select p.name, length(p.name) from Person p where length(p.name) = (select min(length(p.name)) From Person p)")
     List<Object[]> getShortedName();
 
+    @Query("select p from Person p where p.id in ('1', '2')")
+    List<Person> getPersonsByIds();
+
+    @Query("select p from Person p where p.id in ?1")
+    List<Person> getPersonsByIdsFromParam(List<String> ids);
+
 }

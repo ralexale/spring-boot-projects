@@ -32,13 +32,14 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     // list();
     // findOne();
     // create();
-    // update();
+    update();
     // personalizedQuerys();
     // personalizedQuerys2();
     // personalizedQuerysDistinc();
     // personalizedQuerysConcatUpperAndLowerCase();
     // personalizedQuerysBetween();
-    personalizedSubQuerys();
+    // personalizedSubQuerys();
+    // personalizedQuerysWhereIn();
   }
 
   @Transactional
@@ -184,6 +185,13 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     personsB.forEach(System.out::println);
 
+  }
+
+  @Transactional(readOnly = true)
+  public void personalizedQuerysWhereIn() {
+    List<Person> persons = repository.getPersonsByIds();
+
+    persons.forEach(System.out::println);
   }
 
   public void personalizedSubQuerys() {

@@ -1,10 +1,14 @@
 package com.ralexale.springboot.jpa.springbootjpa.entities;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +31,10 @@ public class Person {
 
   @Column(name = "programming_language")
   private String programmingLanguage;
+
+  @Embedded
+  @Autowired
+  private Audit audit;
 
   // siempre que estemos en una clase con la anotación @Entity
   // tenemos que crear un constructor vacío
@@ -91,6 +99,11 @@ public class Person {
         lastname +
         ", programmingLanguage=" +
         programmingLanguage +
+        "create at=" +
+        audit.getCreateAt() +
+        ", update at=" +
+        audit.getUpdateAt() +
         "]");
   }
+
 }
