@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,16 +12,19 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Invoice {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String description;
-    private Double total;
+    private String street;
 
-    @ManyToOne
-    // @JoinColumn(name = "id_cliente_temp")
-    private Client client;
+    private Integer streetNumber;
+
+    public Address(String street, Integer streetNumber) {
+        this.street = street;
+        this.streetNumber = streetNumber;
+    }
+
 }
